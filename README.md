@@ -1,5 +1,7 @@
 # simple-treesitter.nvim
 
+**WARNING** this is very early stage so don't use this and expect all to work
+
 A minimal Neovim plugin that downloads, compiles, and installs Tree-sitter parsers directly from their git repositories.
 
 Instead of delegating to nvim-treesitter's parser registry, you point this plugin at any parser git repository and pin it to an exact revision. On startup it checks whether the parser is already installed at that revision; if not, it downloads the source archive, optionally runs `tree-sitter generate`, compiles it with `make`, and drops the resulting `.so` into Neovim's parser directory.

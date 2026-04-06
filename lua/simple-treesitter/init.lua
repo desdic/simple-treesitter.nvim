@@ -16,7 +16,7 @@ local defaults = {
 	parsers = {},
 	data_dir = vim.fn.stdpath("data") .. "/site/parser",
 	revision_dir = vim.fn.stdpath("data") .. "/site/parser-info",
-	query_dir = vim.fn.stdpath("data") .. "/site/queries",
+	query_dir = vim.fn.stdpath("data") .. "/simple-treesitter.nvim/queries",
 	tmp_dir = vim.fn.stdpath("data") .. "/site/parser-src",
 }
 
@@ -294,6 +294,11 @@ end
 ---@param opts? Config  Partial config merged over the built-in defaults
 M.setup = function(opts)
 	M.settings = vim.tbl_deep_extend("force", defaults, opts or {})
+
+	-- Ensure the query root's parent directory is on the runtimepath so Neovim
+	-- can discover {query_dir}/{lang}/*.scm files without touching site/queries.
+	local query_root = vim.fn.fnamemodify(M.settings.query_dir, ":h")
+	vim.opt.runtimepath:append(query_root)
 
 	for name, parser in pairs(M.settings.parsers) do
 		install_parser(name, parser, M.settings)
